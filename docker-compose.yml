@@ -1,0 +1,57 @@
+version: "3.8"
+services:
+  nginx:
+    build:
+      context: docker
+      dockerfile: development/nginx/Dockerfile
+    volumes:
+      - ./backend:/app
+      - ./docker/development/nginx/vhost.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "8080:80"
+      - "8443:443"
+    depends_on:
+      - php-fpm
+
+  php-fpm:
+    build:
+      context: docker
+      dockerfile: development/php-fpm/Dockerfile
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - database
+
+  php-cli:
+    build:
+      context: docker
+      dockerfile: development/php-cli/Dockerfile
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - database
+
+  supervisord:
+    build:
+      context: docker
+      dockerfile: development/php-supervisord/Dockerfile
+    command: ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+    volumes:
+      - ./backend:/app
+      - ./docker/development/php-supervisord/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
+    depends_on:
+      - database
+
+  database:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: example_usr
+      POSTGRES_PASSWORD: example_pass
+      POSTGRES_DB: example_db
+    volumes:
+      - example_db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  example_db:
