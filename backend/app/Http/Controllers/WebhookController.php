@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
@@ -8,7 +10,7 @@ use Telegram\Bot\Events\UpdateEvent;
 use Telegram\Bot\Laravel\Facades\Telegram;
 use Throwable;
 
-class WebhookController extends Controller
+final class WebhookController extends Controller
 {
     public function handle(Request $request): JsonResponse
     {

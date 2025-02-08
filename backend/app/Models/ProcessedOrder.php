@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $subscription_id
@@ -24,7 +26,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProcessedOrder whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class ProcessedOrder extends Model
+final class ProcessedOrder extends Model
 {
     protected $fillable = [
         "subscription_id",

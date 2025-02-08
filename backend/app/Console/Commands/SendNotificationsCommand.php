@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace app\Console\Commands;
 
 use App\Models\ProcessedOrder;
@@ -8,7 +10,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 use Telegram\Bot\Api;
 
-class SendNotificationsCommand extends Command
+final class SendNotificationsCommand extends Command
 {
     protected $signature = 'notifications:send';
 
@@ -37,10 +39,10 @@ class SendNotificationsCommand extends Command
             $orders = $response->json()['data']['orders'];
 
             foreach ($orders as $order) {
-                if (!ProcessedOrder::query()->where([
+                if (ProcessedOrder::query()->where([
                     'subscription_id' => $subscription->id,
                     'order_id' => $order['id'],
-                ])->exists()) {
+                ])->first() === null) {
                     $this->telegram->sendMessage([
                         'chat_id' => $subscription->user->telegram_chat_id,
                         'text' => "Заказ: {$order['id']}"

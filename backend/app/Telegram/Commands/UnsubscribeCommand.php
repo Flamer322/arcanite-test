@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Telegram\Commands;
 
 use App\Models\Subscription;
 use App\Models\User;
 use Telegram\Bot\Commands\Command;
 
-class UnsubscribeCommand extends Command {
+final class UnsubscribeCommand extends Command {
     protected string $name = 'unsubscribe';
     protected array $aliases = ['отписаться'];
     protected string $pattern = '{unit_id}';
@@ -16,7 +18,7 @@ class UnsubscribeCommand extends Command {
     {
         $unitId = $this->argument('unit_id');
 
-        if (empty($unitId)) {
+        if ($unitId === null) {
             $this->replyWithMessage([
                 'text' => "Не указан unit_id",
             ]);
@@ -24,8 +26,16 @@ class UnsubscribeCommand extends Command {
             return;
         }
 
+        $message = $this->getUpdate()->getMessage();
+
+        if (property_exists($message, 'chat') === false) {
+            $this->replyWithMessage(['text' => 'Произошла ошибка при получении информации о пользователе']);
+
+            return;
+        }
+
         $user = User::query()->firstOrCreate(
-            ['telegram_chat_id' => $this->getUpdate()->getMessage()->chat->id],
+            ['telegram_chat_id' => $message->chat->id],
         );
 
         Subscription::query()->where([

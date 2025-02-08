@@ -1,20 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Telegram\Commands;
 
 use App\Models\Subscription;
 use App\Models\User;
 use Telegram\Bot\Commands\Command;
 
-class ListCommand extends Command {
+final class ListCommand extends Command {
     protected string $name = 'list';
     protected array $aliases = ['список'];
     protected string $description = 'Получить список отслеживаемых заведений';
 
     public function handle(): void
     {
+        $message = $this->getUpdate()->getMessage();
+
+        if (property_exists($message, 'chat') === false) {
+            $this->replyWithMessage(['text' => 'Произошла ошибка при получении информации о пользователе']);
+
+            return;
+        }
+
         $user = User::query()->firstOrCreate(
-            ['telegram_chat_id' => $this->getUpdate()->getMessage()->chat->id],
+            ['telegram_chat_id' => $message->chat->id],
         );
 
         if ($user->subscriptions->isNotEmpty()) {
