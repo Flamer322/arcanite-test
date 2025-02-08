@@ -31,3 +31,6 @@ make-env:
 
 generate-key:
 	docker compose run --rm php-cli php artisan key:generate
+
+setup-webhook:
+	docker compose run --rm php-cli php artisan telegram:webhook --setup

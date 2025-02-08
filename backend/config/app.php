@@ -53,6 +53,7 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
+    'order_api_host' => env('ORDER_API_HOST', 'http://localhost'),
 
     /*
     |--------------------------------------------------------------------------
