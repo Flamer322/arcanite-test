@@ -9,10 +9,14 @@ use App\Models\User;
 use Illuminate\Support\Facades\Http;
 use Telegram\Bot\Commands\Command;
 
-final class SubscribeCommand extends Command {
+final class SubscribeCommand extends Command
+{
     protected string $name = 'subscribe';
+
     protected array $aliases = ['подписаться'];
+
     protected string $pattern = '{unit_id} {api_key}';
+
     protected string $description = 'Подписаться на новое заведение';
 
     public function handle(): void
@@ -21,7 +25,7 @@ final class SubscribeCommand extends Command {
 
         if ($unitId === null) {
             $this->replyWithMessage([
-                'text' => "Не указан unit_id",
+                'text' => 'Не указан unit_id',
             ]);
 
             return;
@@ -31,7 +35,7 @@ final class SubscribeCommand extends Command {
 
         if ($apiKey === null) {
             $this->replyWithMessage([
-                'text' => "Не указан api_key",
+                'text' => 'Не указан api_key',
             ]);
 
             return;
@@ -49,15 +53,15 @@ final class SubscribeCommand extends Command {
             ['telegram_chat_id' => $message->chat->id],
         );
 
-        $response = Http::get(config('app.order_api_host') . "/api/unit/{$unitId}/order", [
+        $response = Http::get(config('app.order_api_host')."/api/unit/{$unitId}/order", [
             'api_key' => $apiKey,
             'page' => 1,
-            'per_page' => 1
+            'per_page' => 1,
         ]);
 
         if ($response->successful() === false || array_key_exists('data', $response->json()) === false) {
             $this->replyWithMessage([
-                'text' => "Указаны неверные unit_id и api_key",
+                'text' => 'Указаны неверные unit_id и api_key',
             ]);
 
             return;

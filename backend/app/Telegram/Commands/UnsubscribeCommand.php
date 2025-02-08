@@ -8,10 +8,14 @@ use App\Models\Subscription;
 use App\Models\User;
 use Telegram\Bot\Commands\Command;
 
-final class UnsubscribeCommand extends Command {
+final class UnsubscribeCommand extends Command
+{
     protected string $name = 'unsubscribe';
+
     protected array $aliases = ['отписаться'];
+
     protected string $pattern = '{unit_id}';
+
     protected string $description = 'Перестать отслеживать заведение';
 
     public function handle(): void
@@ -20,7 +24,7 @@ final class UnsubscribeCommand extends Command {
 
         if ($unitId === null) {
             $this->replyWithMessage([
-                'text' => "Не указан unit_id",
+                'text' => 'Не указан unit_id',
             ]);
 
             return;

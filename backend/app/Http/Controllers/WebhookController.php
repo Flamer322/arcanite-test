@@ -16,22 +16,20 @@ final class WebhookController extends Controller
     {
         try {
             // Processing buttons
-            Telegram::on('callback_query.text', function (UpdateEvent $event) {
-
-            });
+            Telegram::on('callback_query.text', function (UpdateEvent $event) {});
 
             Telegram::commandsHandler(true);
 
             return response()
                 ->json([
                     'status' => true,
-                    'error' => null
+                    'error' => null,
                 ]);
         } catch (Throwable $exception) {
             return response()
                 ->json([
                     'status' => false,
-                    'error' => $exception->getMessage()
+                    'error' => $exception->getMessage(),
                 ]);
         }
     }

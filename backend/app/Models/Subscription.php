@@ -9,8 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- *
- *
  * @property int $id
  * @property int $user_id
  * @property int $unit_id
@@ -20,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProcessedOrder> $processedOrder
  * @property-read int|null $processed_order_count
  * @property-read \App\Models\User $user
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Subscription newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Subscription newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Subscription query()
@@ -29,23 +28,24 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Subscription whereUnitId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Subscription whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Subscription whereUserId($value)
+ *
  * @mixin \Eloquent
  */
 final class Subscription extends Model
 {
     protected $fillable = [
-        "user_id",
-        "unit_id",
-        "api_key",
+        'user_id',
+        'unit_id',
+        'api_key',
     ];
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, "user_id", "id");
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function processedOrder(): HasMany
     {
-        return $this->hasMany(ProcessedOrder::class, "subscription_id", "id");
+        return $this->hasMany(ProcessedOrder::class, 'subscription_id', 'id');
     }
 }

@@ -18,8 +18,7 @@ final class SendNotificationsCommand extends Command
 
     public function __construct(
         protected Api $telegram
-    )
-    {
+    ) {
         parent::__construct();
     }
 
@@ -30,10 +29,10 @@ final class SendNotificationsCommand extends Command
         $subscriptions = Subscription::query()->with('user')->get();
 
         foreach ($subscriptions as $subscription) {
-            $response = Http::get(config('app.order_api_host') . "/api/unit/{$subscription->unit_id}/order", [
+            $response = Http::get(config('app.order_api_host')."/api/unit/{$subscription->unit_id}/order", [
                 'api_key' => $subscription->api_key,
                 'page' => 1,
-                'per_page' => 20
+                'per_page' => 20,
             ]);
 
             $orders = $response->json()['data']['orders'];
@@ -45,7 +44,7 @@ final class SendNotificationsCommand extends Command
                 ])->first() === null) {
                     $this->telegram->sendMessage([
                         'chat_id' => $subscription->user->telegram_chat_id,
-                        'text' => "Заказ: {$order['id']}"
+                        'text' => "Заказ: {$order['id']}",
                     ]);
 
                     ProcessedOrder::query()->create([

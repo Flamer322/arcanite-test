@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('user_id')
-                ->references("id")
-                ->on("users")
+                ->references('id')
+                ->on('users')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
 
@@ -34,8 +34,8 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('subscription_id')
-                ->references("id")
-                ->on("subscriptions")
+                ->references('id')
+                ->on('subscriptions')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
 

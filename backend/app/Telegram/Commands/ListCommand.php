@@ -8,9 +8,12 @@ use App\Models\Subscription;
 use App\Models\User;
 use Telegram\Bot\Commands\Command;
 
-final class ListCommand extends Command {
+final class ListCommand extends Command
+{
     protected string $name = 'list';
+
     protected array $aliases = ['список'];
+
     protected string $description = 'Получить список отслеживаемых заведений';
 
     public function handle(): void
@@ -28,11 +31,11 @@ final class ListCommand extends Command {
         );
 
         if ($user->subscriptions->isNotEmpty()) {
-            $response = 'Список отслеживаемых заведений:' . PHP_EOL . PHP_EOL;
+            $response = 'Список отслеживаемых заведений:'.PHP_EOL.PHP_EOL;
             foreach ($user->subscriptions as $subscription) {
                 /* @var Subscription $subscription */
 
-                $response .= sprintf('%s' . PHP_EOL, $subscription->unit_id);
+                $response .= sprintf('%s'.PHP_EOL, $subscription->unit_id);
             }
         } else {
             $response = 'У вас нет отслеживаемых заведений';
