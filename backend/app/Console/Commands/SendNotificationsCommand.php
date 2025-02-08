@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace app\Console\Commands;
+namespace App\Console\Commands;
 
 use App\Models\ProcessedOrder;
 use App\Models\Subscription;
