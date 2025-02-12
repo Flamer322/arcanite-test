@@ -28,7 +28,7 @@ Or execute commands manually:
 - `docker compose run --rm php-cli php artisan key:generate`
 - `docker compose run --rm php-cli php artisan migrate`
 
-Then set env variables for your Telegram bot:
+Then set env variables for your Telegram bot in backend/.env file:
 
 - TELEGRAM_BOT_TOKEN=\<token of your bot\>
 - TELEGRAM_WEBHOOK_URL=https://\<your host address\>/telegram/webhook
