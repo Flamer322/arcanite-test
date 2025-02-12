@@ -112,7 +112,7 @@ final class SubscriptionsService
             'unit_id' => $data->unitId,
         ])->delete();
 
-        if ($deleted === true) {
+        if ($deleted === 1) {
             return "Вы отписались от заведения {$data->unitId}";
         } else {
             return "Вы не подписаны заведение {$data->unitId}";

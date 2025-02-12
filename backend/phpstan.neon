@@ -25,6 +25,7 @@ parameters:
                 - Illuminate\Support\ServiceProvider
 
                 - Illuminate\Database\Migrations\Migration
+                - Illuminate\Database\Eloquent\Factories\Factory
                 - Illuminate\Database\Seeder
 
                 - Telegram\Bot\Commands\Command
@@ -32,6 +33,9 @@ parameters:
 
                 - Illuminate\Foundation\Testing\TestCase
                 - Tests\TestCase
+
+    ignoreErrors:
+        - '#Dynamic call to static method PHPUnit\\Framework\\.*#'
 
 #    ignoreErrors:
 #        - '#PHPDoc tag @var#'
