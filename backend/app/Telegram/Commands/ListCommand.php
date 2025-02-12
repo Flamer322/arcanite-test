@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Telegram\Commands;
 
-use App\Models\Subscription;
-use App\Models\User;
+use App\Services\SubscriptionsService;
+use Illuminate\Support\Facades\Log;
 use Telegram\Bot\Commands\Command;
+use Throwable;
 
 final class ListCommand extends Command
 {
@@ -16,31 +17,24 @@ final class ListCommand extends Command
 
     protected string $description = 'Получить список отслеживаемых заведений';
 
+    public function __construct(
+        private readonly SubscriptionsService $service,
+    ) {}
+
     public function handle(): void
     {
-        $message = $this->getUpdate()->getMessage();
+        try {
+            $message = $this->service->getSubscriptions(
+                $this->getUpdate()->getMessage()->toArray(),
+            );
+        } catch (Throwable $throwable) {
+            $message = 'Произошла неизвестная ошибка';
 
-        if (property_exists($message, 'chat') === false) {
-            $this->replyWithMessage(['text' => 'Произошла ошибка при получении информации о пользователе']);
-
-            return;
+            Log::error("Произошла неизвестная ошибка: {$throwable->getMessage()}");
+        } finally {
+            $this->replyWithMessage([
+                'text' => $message,
+            ]);
         }
-
-        $user = User::query()->firstOrCreate(
-            ['telegram_chat_id' => $message->chat->id],
-        );
-
-        if ($user->subscriptions->isNotEmpty()) {
-            $response = 'Список отслеживаемых заведений:'.PHP_EOL.PHP_EOL;
-            foreach ($user->subscriptions as $subscription) {
-                /* @var Subscription $subscription */
-
-                $response .= sprintf('%s'.PHP_EOL, $subscription->unit_id);
-            }
-        } else {
-            $response = 'У вас нет отслеживаемых заведений';
-        }
-
-        $this->replyWithMessage(['text' => $response]);
     }
 }

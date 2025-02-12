@@ -28,6 +28,7 @@ parameters:
                 - Illuminate\Database\Seeder
 
                 - Telegram\Bot\Commands\Command
+                - Spatie\LaravelData\Data
 
                 - Illuminate\Foundation\Testing\TestCase
                 - Tests\TestCase

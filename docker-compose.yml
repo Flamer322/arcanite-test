@@ -21,6 +21,7 @@ services:
       - ./backend:/app
     depends_on:
       - database
+      - redis
 
   php-cli:
     build:
@@ -30,6 +31,7 @@ services:
       - ./backend:/app
     depends_on:
       - database
+      - redis
 
   supervisord:
     build:
@@ -41,6 +43,7 @@ services:
       - ./docker/development/php-supervisord/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
     depends_on:
       - database
+      - redis
 
   database:
     image: postgres:15-alpine
@@ -52,6 +55,11 @@ services:
       - example_db:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
 
 volumes:
   example_db:

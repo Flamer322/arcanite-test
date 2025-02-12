@@ -11,7 +11,7 @@ RUN apk add --no-cache fcgi git unzip libzip-dev linux-headers \
     && docker-php-ext-configure xdebug --enable-xdebug-dev \
     && docker-php-ext-install pdo_pgsql xdebug \
     && docker-php-ext-install exif \
-    && docker-php-ext-install zip xml gd simplexml pcntl \
+    && docker-php-ext-install zip xml gd simplexml pcntl bcmath \
     && apk del git
 
 RUN mv $PHP_INI_DIR/php.ini-development $PHP_INI_DIR/php.ini

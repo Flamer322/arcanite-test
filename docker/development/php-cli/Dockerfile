@@ -11,7 +11,7 @@ RUN apk add --no-cache bash coreutils git unzip python3 py3-pip npm yarn make g+
     && docker-php-ext-configure xdebug --enable-xdebug-dev \
     && docker-php-ext-install pdo_pgsql xdebug \
     && docker-php-ext-install exif \
-    && docker-php-ext-install zip xml gd simplexml pcntl
+    && docker-php-ext-install zip xml gd simplexml pcntl bcmath
 
 RUN mv $PHP_INI_DIR/php.ini-development $PHP_INI_DIR/php.ini
 
